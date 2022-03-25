@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Characters/Torei.h"
+#include "TheTornTale/Characters/Torei.h"
 
 // Sets default values
 ATorei::ATorei()
