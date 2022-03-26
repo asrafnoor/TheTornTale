@@ -29,11 +29,15 @@ public:
 private:
 	UPROPERTY(EditAnyWhere);
 	float RotationRate = 10;
+	UPROPERTY()
+		bool Jumping;
 
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
 	void LookUpRate(float AxisValue);
 	void LookRightRate(float AxisValue);
+
+	void CheckJump();
 	void Crouch();
 
 };

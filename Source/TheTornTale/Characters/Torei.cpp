@@ -9,6 +9,8 @@ ATorei::ATorei()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Jumping = false;
+
 }
 
 // Called when the game starts or when spawned
@@ -23,6 +25,11 @@ void ATorei::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (Jumping)
+	{
+		Jump();
+	}
+
 }
 
 // Called to bind functionality to input
@@ -36,8 +43,20 @@ void ATorei::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis(TEXT("LookUpRate"), this, &ATorei::LookUpRate);
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &ATorei::LookRightRate);
-	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction(TEXT("Crouch"), EInputEvent::IE_Pressed, this, &ATorei::Crouch);
+	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ATorei::CheckJump);
+	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Released, this, &ATorei::CheckJump);
+}
+
+void ATorei::CheckJump()
+{
+	if (Jumping)
+	{
+		Jumping = false;
+	}
+	else
+	{
+		Jumping = true;
+	}
 }
 
 void ATorei::MoveForward(float AxisValue)
