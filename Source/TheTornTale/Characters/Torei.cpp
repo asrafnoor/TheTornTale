@@ -12,6 +12,7 @@ ATorei::ATorei()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Jumping = false;
+	jumpCount = 0;
 	
 	speed = 0.5f;
 	walking = true;
@@ -55,6 +56,13 @@ void ATorei::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &ATorei::Sprint);
 }
 
+void ATorei::Landed(const FHitResult& Hit)
+{
+	Super::Landed(Hit);
+	
+	jumpCount = 0;
+}
+
 void ATorei::Sprint()
 {
 	walking = !walking;
@@ -77,6 +85,11 @@ void ATorei::CheckJump()
 	else
 	{
 		Jumping = true;
+		jumpCount++;
+		if (jumpCount == 2)
+		{
+			LaunchCharacter(FVector(0, 0, launchValueZ), false, true);
+		}
 	}
 }
 
