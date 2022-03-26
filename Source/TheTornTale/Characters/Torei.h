@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Torei.generated.h"
 
+
 UCLASS()
 class THETORNTALE_API ATorei : public ACharacter
 {
@@ -30,7 +31,13 @@ private:
 	UPROPERTY(EditAnyWhere);
 	float RotationRate = 10;
 	UPROPERTY()
-		bool Jumping;
+	bool Jumping;
+	UPROPERTY()
+	bool FirstPerson;
+	UPROPERTY()
+		float speed;
+	UPROPERTY()
+		bool walking;
 
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
@@ -38,6 +45,8 @@ private:
 	void LookRightRate(float AxisValue);
 
 	void CheckJump();
-	void Crouch();
+	void crouch();
+	void Sprint();
+	
 
 };

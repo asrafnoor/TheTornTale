@@ -2,6 +2,8 @@
 
 
 #include "TheTornTale/Characters/Torei.h"
+#include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
 ATorei::ATorei()
@@ -10,14 +12,16 @@ ATorei::ATorei()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Jumping = false;
-
+	
+	speed = 0.5f;
+	walking = true;
 }
 
 // Called when the game starts or when spawned
 void ATorei::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -43,8 +47,25 @@ void ATorei::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &APawn::AddControllerYawInput);
 	PlayerInputComponent->BindAxis(TEXT("LookUpRate"), this, &ATorei::LookUpRate);
 	PlayerInputComponent->BindAxis(TEXT("LookRightRate"), this, &ATorei::LookRightRate);
+
+
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ATorei::CheckJump);
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Released, this, &ATorei::CheckJump);
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &ATorei::Sprint);
+	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &ATorei::Sprint);
+}
+
+void ATorei::Sprint()
+{
+	walking = !walking;
+	if (walking)
+	{
+		speed = 0.5f;
+	}
+	else
+	{
+		speed = 1;
+	}
 }
 
 void ATorei::CheckJump()
@@ -61,7 +82,7 @@ void ATorei::CheckJump()
 
 void ATorei::MoveForward(float AxisValue)
 {
-	AddMovementInput(GetActorForwardVector() * AxisValue);
+	AddMovementInput(GetActorForwardVector() * AxisValue * speed);
 }
 
 void ATorei::MoveRight(float AxisValue)
@@ -79,6 +100,7 @@ void ATorei::LookRightRate(float AxisValue)
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
 }
 
-void ATorei::Crouch()
+void ATorei::crouch()
 {
 }
+
