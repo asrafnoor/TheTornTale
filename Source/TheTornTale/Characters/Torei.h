@@ -6,7 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Torei.generated.h"
 
-
+class UBoxComponent;
 UCLASS()
 class THETORNTALE_API ATorei : public ACharacter
 {
@@ -44,6 +44,11 @@ private:
 		bool walking;
 	UPROPERTY(EditAnywhere)
 		int launchValueZ = 500;
+	UPROPERTY(EditAnywhere)
+		UBoxComponent* InteractionBox;
+
+	UFUNCTION()
+		void OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);

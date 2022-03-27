@@ -4,6 +4,7 @@
 #include "TheTornTale/Characters/Torei.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Components/BoxComponent.h"
 
 // Sets default values
 ATorei::ATorei()
@@ -16,6 +17,9 @@ ATorei::ATorei()
 	
 	speed = 0.5f;
 	walking = true;
+
+	InteractionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Interaction Box"));
+	InteractionBox->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -23,6 +27,8 @@ void ATorei::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Adjust Overlap object inside the Interaction Box Component
+	InteractionBox->OnComponentBeginOverlap.AddDynamic(this, &ATorei::OnBoxBeginOverlap);
 }
 
 // Called every frame
@@ -96,6 +102,10 @@ void ATorei::CheckJump()
 void ATorei::MoveForward(float AxisValue)
 {
 	AddMovementInput(GetActorForwardVector() * AxisValue * speed);
+}
+
+void ATorei::OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
 }
 
 void ATorei::MoveRight(float AxisValue)
