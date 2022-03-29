@@ -8,6 +8,7 @@
 #include "Components/PointLightComponent.h"
 #include "LightSwitch.generated.h"
 
+class UWidgetComponent;
 UCLASS()
 class THETORNTALE_API ALightSwitch : public AActor, public IInteractionInterface
 {
@@ -37,5 +38,10 @@ private:
 	UPROPERTY(EditAnywhere)
 		UPointLightComponent* WallLamp;
 
+	UPROPERTY(EditAnywhere)
+		UWidgetComponent* InteractionWidget;
+
 	bool bIsLightOn = false;
+
+	
 };
