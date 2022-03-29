@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "TheTornTale/InteractionInterface.h"
+#include "Components/PointLightComponent.h"
 #include "LightSwitch.generated.h"
 
 UCLASS()
@@ -32,5 +33,8 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		UStaticMeshComponent* LightSwitchMesh;
+
+	UPROPERTY(EditAnywhere)
+		UPointLightComponent* WallLamp;
 
 };

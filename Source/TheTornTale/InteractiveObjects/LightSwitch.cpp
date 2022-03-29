@@ -14,12 +14,16 @@ ALightSwitch::ALightSwitch()
 
 	LightSwitchMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Light Switch Mesh"));
 	LightSwitchMesh->SetupAttachment(RootComponent);
+
+	WallLamp = CreateDefaultSubobject<UPointLightComponent>(TEXT("Wall Lamp Bulb"));
+	WallLamp->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
 void ALightSwitch::BeginPlay()
 {
 	Super::BeginPlay();
+	WallLamp->SetIntensity(0);
 	
 }
 
@@ -33,5 +37,6 @@ void ALightSwitch::Tick(float DeltaTime)
 void ALightSwitch::InteractWithMe()
 {
 	UE_LOG(LogTemp, Warning, TEXT("You have interacted with me!"));
+	WallLamp->SetIntensity(10000);
 }
 
