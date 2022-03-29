@@ -2,6 +2,7 @@
 
 
 #include "TheTornTale/InteractiveObjects/LightSwitch.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 ALightSwitch::ALightSwitch()
@@ -17,6 +18,9 @@ ALightSwitch::ALightSwitch()
 
 	WallLamp = CreateDefaultSubobject<UPointLightComponent>(TEXT("Wall Lamp Bulb"));
 	WallLamp->SetupAttachment(RootComponent);
+
+	InteractionWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Interaction Widget"));
+	InteractionWidget->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned
