@@ -37,4 +37,5 @@ private:
 	UPROPERTY(EditAnywhere)
 		UPointLightComponent* WallLamp;
 
+	bool bIsLightOn = false;
 };

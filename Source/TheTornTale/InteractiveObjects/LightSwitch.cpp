@@ -37,6 +37,15 @@ void ALightSwitch::Tick(float DeltaTime)
 void ALightSwitch::InteractWithMe()
 {
 	UE_LOG(LogTemp, Warning, TEXT("You have interacted with me!"));
-	WallLamp->SetIntensity(10000);
+	if (bIsLightOn)
+	{
+		WallLamp->SetIntensity(0);
+		bIsLightOn = false;
+	}
+	else
+	{
+		WallLamp->SetIntensity(10000);
+		bIsLightOn = true;
+	}
 }
 
