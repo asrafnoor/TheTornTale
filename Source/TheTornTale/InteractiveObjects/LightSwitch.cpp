@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "InteractiveObjects/LightSwitch.h"
+#include "TheTornTale/InteractiveObjects/LightSwitch.h"
 
 // Sets default values
 ALightSwitch::ALightSwitch()

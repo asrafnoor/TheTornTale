@@ -99,14 +99,15 @@ void ATorei::CheckJump()
 	}
 }
 
+void ATorei::OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+}
+
 void ATorei::MoveForward(float AxisValue)
 {
 	AddMovementInput(GetActorForwardVector() * AxisValue * speed);
 }
 
-void ATorei::OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-}
 
 void ATorei::MoveRight(float AxisValue)
 {
