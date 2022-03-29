@@ -25,3 +25,8 @@ void ALightSwitch::Tick(float DeltaTime)
 
 }
 
+void ALightSwitch::InteractWithMe()
+{
+	UE_LOG(LogTemp, Warning, TEXT("You have interacted with me!"));
+}
+
