@@ -9,6 +9,11 @@ ALightSwitch::ALightSwitch()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	_RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root Component"));
+	RootComponent = _RootComponent;
+
+	LightSwitchMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Light Switch Mesh"));
+	LightSwitchMesh->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned

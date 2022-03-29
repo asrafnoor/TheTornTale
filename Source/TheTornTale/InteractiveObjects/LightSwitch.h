@@ -25,4 +25,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void InteractWithMe() override;
 
+private:
+	//Visual Representation in Scene components
+	UPROPERTY(EditAnywhere)
+		USceneComponent* _RootComponent;
+
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* LightSwitchMesh;
+
 };
