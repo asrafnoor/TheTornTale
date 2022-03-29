@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "TheTornTale/InteractionInterface.h"
 #include "LightSwitch.generated.h"
 
 UCLASS()
-class THETORNTALE_API ALightSwitch : public AActor
+class THETORNTALE_API ALightSwitch : public AActor, public IInteractionInterface
 {
 	GENERATED_BODY()
 	
