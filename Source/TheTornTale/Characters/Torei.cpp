@@ -61,6 +61,7 @@ void ATorei::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Released, this, &ATorei::CheckJump);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &ATorei::Sprint);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &ATorei::Sprint);
+	PlayerInputComponent->BindAction(TEXT("Interact"), EInputEvent::IE_Pressed, this, &ATorei::Interacting);
 }
 
 void ATorei::Landed(const FHitResult& Hit)
@@ -103,10 +104,7 @@ void ATorei::CheckJump()
 void ATorei::OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	Interface = Cast<IInteractionInterface>(OtherActor);
-	if (Interface)
-	{
-		Interface->InteractWithMe();
-	}
+	
 }
 
 void ATorei::MoveForward(float AxisValue)
@@ -133,5 +131,13 @@ void ATorei::LookRightRate(float AxisValue)
 void ATorei::crouch()
 {
 
+}
+
+void ATorei::Interacting()
+{
+	if (Interface)
+	{
+		Interface->InteractWithMe();
+	}
 }
 

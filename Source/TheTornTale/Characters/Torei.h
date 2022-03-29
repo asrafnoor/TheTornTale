@@ -60,6 +60,8 @@ private:
 	void crouch();
 	void Sprint();
 	
+	void Interacting();
+	
 	IInteractionInterface* Interface = nullptr;
 
 };
