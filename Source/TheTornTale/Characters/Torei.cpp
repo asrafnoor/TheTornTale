@@ -30,6 +30,7 @@ void ATorei::BeginPlay()
 
 	//Adjust Overlap object inside the Interaction Box Component
 	InteractionBox->OnComponentBeginOverlap.AddDynamic(this, &ATorei::OnBoxBeginOverlap);
+	InteractionBox->OnComponentEndOverlap.AddDynamic(this, &ATorei::OnBoxEndOverlap);
 }
 
 // Called every frame
@@ -104,7 +105,20 @@ void ATorei::CheckJump()
 void ATorei::OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	Interface = Cast<IInteractionInterface>(OtherActor);
-	
+
+	if (Interface)
+	{
+		Interface->ShowInteractionWidget();
+	}
+}
+
+void ATorei::OnBoxEndOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (Interface)
+	{
+		Interface->HideInteractionWidget();
+		Interface = nullptr;
+	}
 }
 
 void ATorei::MoveForward(float AxisValue)

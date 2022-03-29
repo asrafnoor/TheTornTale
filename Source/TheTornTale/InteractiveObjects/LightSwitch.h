@@ -26,6 +26,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual void InteractWithMe() override;
+	virtual void ShowInteractionWidget() override;
+	virtual void HideInteractionWidget() override;
 
 private:
 	//Visual Representation in Scene components

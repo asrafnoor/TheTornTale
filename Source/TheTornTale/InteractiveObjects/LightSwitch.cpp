@@ -21,6 +21,7 @@ ALightSwitch::ALightSwitch()
 
 	InteractionWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Interaction Widget"));
 	InteractionWidget->SetupAttachment(RootComponent);
+	
 }
 
 // Called when the game starts or when spawned
@@ -28,6 +29,7 @@ void ALightSwitch::BeginPlay()
 {
 	Super::BeginPlay();
 	WallLamp->SetIntensity(0);
+	InteractionWidget->SetVisibility(false);
 	
 }
 
@@ -51,5 +53,15 @@ void ALightSwitch::InteractWithMe()
 		WallLamp->SetIntensity(10000);
 		bIsLightOn = true;
 	}
+}
+
+void ALightSwitch::ShowInteractionWidget()
+{
+	InteractionWidget->SetVisibility(true);
+}
+
+void ALightSwitch::HideInteractionWidget()
+{
+	InteractionWidget->SetVisibility(false);
 }
 
