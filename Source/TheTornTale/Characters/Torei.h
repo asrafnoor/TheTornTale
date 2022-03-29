@@ -7,6 +7,7 @@
 #include "Torei.generated.h"
 
 class UBoxComponent;
+class IInteractionInterface;
 UCLASS()
 class THETORNTALE_API ATorei : public ACharacter
 {
@@ -59,5 +60,6 @@ private:
 	void crouch();
 	void Sprint();
 	
+	IInteractionInterface* Interface = nullptr;
 
 };

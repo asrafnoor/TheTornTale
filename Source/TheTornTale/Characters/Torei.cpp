@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/BoxComponent.h"
+#include "TheTornTale/InteractionInterface.h"
 
 // Sets default values
 ATorei::ATorei()
@@ -101,6 +102,11 @@ void ATorei::CheckJump()
 
 void ATorei::OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	Interface = Cast<IInteractionInterface>(OtherActor);
+	if (Interface)
+	{
+		Interface->InteractWithMe();
+	}
 }
 
 void ATorei::MoveForward(float AxisValue)
@@ -126,5 +132,6 @@ void ATorei::LookRightRate(float AxisValue)
 
 void ATorei::crouch()
 {
+
 }
 
