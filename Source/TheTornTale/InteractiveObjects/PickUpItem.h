@@ -7,6 +7,7 @@
 #include "TheTornTale/InteractionInterface.h"
 #include "PickUpItem.generated.h"
 
+class UWidgetComponent;
 UCLASS()
 class THETORNTALE_API APickUpItem : public AActor, public IInteractionInterface
 {
@@ -35,8 +36,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
 		UStaticMeshComponent* ItemMesh;
 
-	//UFUNCTION()
-	//	virtual void InteractWithMe() override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
+		UWidgetComponent* InteractionWidget;
+
+	UFUNCTION()
+		virtual void InteractWithMe() override;
+
+	virtual void ShowInteractionWidget() override;
+	virtual void HideInteractionWidget() override;
 
 private:
 

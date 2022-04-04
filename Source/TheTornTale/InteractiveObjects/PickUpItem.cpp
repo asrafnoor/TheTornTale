@@ -2,6 +2,7 @@
 
 
 #include "TheTornTale/InteractiveObjects/PickUpItem.h"
+#include "Components/WidgetComponent.h"
 
 // Sets default values
 APickUpItem::APickUpItem()
@@ -15,6 +16,9 @@ APickUpItem::APickUpItem()
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
 	ItemMesh->SetupAttachment(RootComponent);
 
+	InteractionWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("Interaction Widget"));
+	InteractionWidget->SetupAttachment(RootComponent);
+
 	RotationRate = FRotator(0, 180, 0);
 
 	Speed = 1.0f;
@@ -25,6 +29,7 @@ APickUpItem::APickUpItem()
 void APickUpItem::BeginPlay()
 {
 	Super::BeginPlay();
+	InteractionWidget->SetVisibility(false);
 	
 }
 
@@ -35,5 +40,20 @@ void APickUpItem::Tick(float DeltaTime)
 
 	AddActorLocalRotation(RotationRate * DeltaTime * Speed);
 
+}
+
+void APickUpItem::InteractWithMe()
+{
+	Destroy();
+}
+
+void APickUpItem::ShowInteractionWidget()
+{
+	InteractionWidget->SetVisibility(true);
+}
+
+void APickUpItem::HideInteractionWidget()
+{
+	InteractionWidget->SetVisibility(false);
 }
 
