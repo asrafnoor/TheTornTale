@@ -29,6 +29,8 @@ public:
 		FRotator RotationRate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
 		float Speed;
+	UPROPERTY(EditAnywhere)
+		FString Name;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
 		USceneComponent* SceneComponent;
