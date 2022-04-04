@@ -44,6 +44,9 @@ void APickUpItem::Tick(float DeltaTime)
 
 void APickUpItem::InteractWithMe()
 {
+	FString pickUp = FString::Printf(TEXT("Picked up: %s"), *GetName());
+
+	GEngine->AddOnScreenDebugMessage(1, 5, FColor::White, pickUp);
 	Destroy();
 }
 
