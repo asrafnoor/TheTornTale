@@ -193,3 +193,21 @@ void ATorei::Interacting()
 	}
 }
 
+void ATorei::AddToInventory(APickUpItem* actor)
+{
+	inventory.Add(actor);
+}
+
+void ATorei::PrintInventory()
+{
+	FString sInventory = "";
+
+	for (APickUpItem* actor : inventory)
+	{
+		sInventory.Append(actor->Name);
+		sInventory.Append(" | ");
+	}
+
+	GEngine->AddOnScreenDebugMessage(1, 3, FColor::White, *sInventory);
+}
+

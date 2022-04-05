@@ -3,6 +3,8 @@
 
 #include "TheTornTale/InteractiveObjects/PickUpItem.h"
 #include "Components/WidgetComponent.h"
+#include "TheTornTale/Characters/Torei.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APickUpItem::APickUpItem()
@@ -33,6 +35,18 @@ void APickUpItem::BeginPlay()
 	
 }
 
+void APickUpItem::Show(bool visible)
+{
+	ECollisionEnabled::Type collision = visible ?
+		ECollisionEnabled::QueryAndPhysics :
+		ECollisionEnabled::NoCollision;
+
+	SetActorTickEnabled(visible);
+
+	ItemMesh->SetVisibility(visible);
+	ItemMesh->SetCollisionEnabled(collision);
+}
+
 // Called every frame
 void APickUpItem::Tick(float DeltaTime)
 {
@@ -46,8 +60,19 @@ void APickUpItem::InteractWithMe()
 {
 	FString pickUp = FString::Printf(TEXT("Picked up: %s"), *Name);
 
-	GEngine->AddOnScreenDebugMessage(1, 5, FColor::White, pickUp);
-	Destroy();
+	//Hide Item and Add it to Inventory
+	ATorei* player = Cast<ATorei>(UGameplayStatics::GetPlayerCharacter(this, 0));
+
+	if (player)
+	{
+		Show(false);
+
+		player->AddToInventory(this);
+	}
+
+	GEngine->AddOnScreenDebugMessage(1, 3, FColor::Red, pickUp);
+
+	//Destroy();
 }
 
 void APickUpItem::ShowInteractionWidget()
