@@ -7,6 +7,8 @@
 #include "TheTornTale/InteractiveObjects/PickUpItem.h"
 #include "Torei.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUpdateInventoryDelegate, const TArray<APickUpItem*>&, InventoryItems);
+
 class UBoxComponent;
 class IInteractionInterface;
 UCLASS()
@@ -34,7 +36,10 @@ public:
 	void AddToInventory(APickUpItem* actor);
 
 	UFUNCTION(BlueprintCallable)
-	void PrintInventory();
+	void UpdateInventory();
+
+	UPROPERTY(BlueprintAssignable, Category = "PickUp")
+		FUpdateInventoryDelegate OnUpdateInventory;
 
 private:
 	UPROPERTY(EditAnyWhere)

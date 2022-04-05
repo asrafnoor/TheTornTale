@@ -198,9 +198,9 @@ void ATorei::AddToInventory(APickUpItem* actor)
 	inventory.Add(actor);
 }
 
-void ATorei::PrintInventory()
+void ATorei::UpdateInventory()
 {
-	FString sInventory = "";
+	/*FString sInventory = "";
 
 	for (APickUpItem* actor : inventory)
 	{
@@ -208,6 +208,9 @@ void ATorei::PrintInventory()
 		sInventory.Append(" | ");
 	}
 
-	GEngine->AddOnScreenDebugMessage(1, 3, FColor::White, *sInventory);
+	GEngine->AddOnScreenDebugMessage(1, 3, FColor::White, *sInventory);*/
+
+	//Call UpdateEvent
+	OnUpdateInventory.Broadcast(inventory);
 }
 
