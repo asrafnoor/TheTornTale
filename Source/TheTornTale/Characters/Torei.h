@@ -36,10 +36,16 @@ public:
 	void AddToInventory(APickUpItem* actor);
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateInventory();
+		void UpdateInventory();
+
+	UFUNCTION(BlueprintCallable)
+		void DropToActionBar(APickUpItem* pickup, int32 maxItems);
 
 	UPROPERTY(BlueprintAssignable, Category = "PickUp")
 		FUpdateInventoryDelegate OnUpdateInventory;
+
+	UPROPERTY(BlueprintAssignable, Category = "PickUp")
+		FUpdateInventoryDelegate OnUpdateActionBar;
 
 private:
 	UPROPERTY(EditAnyWhere)
@@ -59,7 +65,11 @@ private:
 	UPROPERTY(EditAnywhere)
 		UBoxComponent* InteractionBox;
 
+	//Lists
 	TArray<APickUpItem*> inventory;
+
+	TArray<APickUpItem*> actionbar;
+
 
 	/*UFUNCTION()
 		void OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

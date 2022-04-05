@@ -28,9 +28,18 @@ void ATorei::BeginPlay()
 {
 	Super::BeginPlay();
 
+	APlayerController* playerController = Cast<APlayerController>(GetController());
+	if (playerController)
+	{
+		playerController->bShowMouseCursor = true;
+		playerController->bEnableClickEvents = true;
+		playerController->bEnableMouseOverEvents = true;
+	}
+
 	//Adjust Overlap object inside the Interaction Box Component
 	/*InteractionBox->OnComponentBeginOverlap.AddDynamic(this, &ATorei::OnBoxBeginOverlap);
 	InteractionBox->OnComponentEndOverlap.AddDynamic(this, &ATorei::OnBoxEndOverlap);*/
+
 }
 
 // Called every frame
@@ -196,6 +205,8 @@ void ATorei::Interacting()
 void ATorei::AddToInventory(APickUpItem* actor)
 {
 	inventory.Add(actor);
+
+	OnUpdateInventory.Broadcast(inventory);
 }
 
 void ATorei::UpdateInventory()
@@ -212,5 +223,20 @@ void ATorei::UpdateInventory()
 
 	//Call UpdateEvent
 	OnUpdateInventory.Broadcast(inventory);
+}
+
+void ATorei::DropToActionBar(APickUpItem* pickup, int32 maxItems)
+{
+	//Check if Action Bar is full
+	if (actionbar.Num() == maxItems)
+	{
+		return;
+	}
+
+	// Remove item from inventory and add to actionbar
+	inventory.Remove(pickup);
+	actionbar.Add(pickup);
+
+	OnUpdateActionBar.Broadcast(actionbar);
 }
 
