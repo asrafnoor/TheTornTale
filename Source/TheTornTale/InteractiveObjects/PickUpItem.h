@@ -13,9 +13,6 @@ class THETORNTALE_API APickUpItem : public AActor, public IInteractionInterface
 {
 	GENERATED_BODY()
 	
-public:	
-	// Sets default values for this actor's properties
-	APickUpItem();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,6 +21,9 @@ protected:
 	virtual void Show(bool visible);
 
 public:	
+	// Sets default values for this actor's properties
+	APickUpItem();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -31,8 +31,10 @@ public:
 		FRotator RotationRate;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
 		float Speed;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
 		FString Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
+		UTexture2D* Image;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
 		USceneComponent* SceneComponent;
