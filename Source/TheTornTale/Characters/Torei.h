@@ -7,7 +7,9 @@
 #include "TheTornTale/InteractiveObjects/PickUpItem.h"
 #include "Torei.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FUpdateInventoryDelegate, const TArray<APickUpItem*>&, InventoryItems);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInventoryDelegate, APickUpItem*, Item, const TArray<APickUpItem*>&, InventoryItems);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryDelegateSingle, APickUpItem*, Item);
 
 class UBoxComponent;
 class IInteractionInterface;
@@ -21,6 +23,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void UseItem(FKey key);
+
 public:	
 	// Sets default values for this character's properties
 	ATorei();
@@ -33,19 +37,27 @@ public:
 
 	virtual void Landed(const FHitResult& Hit) override;
 
+	//Inventory functions
+
 	void AddToInventory(APickUpItem* actor);
 
-	UFUNCTION(BlueprintCallable)
-		void UpdateInventory();
+	//UFUNCTION(BlueprintCallable)
+	//	void UpdateInventory();
+
+	//UFUNCTION(BlueprintCallable)
+	//	void DropToActionBar(APickUpItem* pickup, int32 maxItems);
 
 	UFUNCTION(BlueprintCallable)
-		void DropToActionBar(APickUpItem* pickup, int32 maxItems);
+		void RemoveInventoryItem(APickUpItem* actor);
 
 	UPROPERTY(BlueprintAssignable, Category = "PickUp")
-		FUpdateInventoryDelegate OnUpdateInventory;
+		FInventoryDelegate OnAddInventoryItem;
 
 	UPROPERTY(BlueprintAssignable, Category = "PickUp")
-		FUpdateInventoryDelegate OnUpdateActionBar;
+		FInventoryDelegate OnRemoveInventoryItem;
+
+	UPROPERTY(BlueprintAssignable, Category = "PickUp")
+		FInventoryDelegateSingle OnUseInventoryItem;
 
 private:
 	UPROPERTY(EditAnyWhere)
@@ -66,7 +78,7 @@ private:
 		UBoxComponent* InteractionBox;
 
 	//Lists
-	TArray<APickUpItem*> inventory;
+	//TArray<APickUpItem*> inventory;
 
 	TArray<APickUpItem*> actionbar;
 
