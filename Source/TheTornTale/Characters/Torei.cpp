@@ -258,20 +258,20 @@ void ATorei::RemoveInventoryItem(APickUpItem* actor)
 
 void ATorei::UseItem(FKey key)
 {
-	//FText name = key.GetDisplayName(false);
-	//int32 number = FCString::Atoi(*name.ToString());
+	FText name = key.GetDisplayName(false);
+	int32 number = FCString::Atoi(*name.ToString());
 
-	//if (number >= 1 && number <= actionbar.Num())
-	//{
-	//	auto selected_item = actionbar[number - 1];
+	if (number >= 1 && number <= actionbar.Num())
+	{
+		auto selected_item = actionbar[number - 1];
 
-	//	for (auto actor : actionbar)
-	//	{
-	//		actor->InUse = false;
-	//	}
-	//	selected_item->InUse = true;
+		for (auto actor : actionbar)
+		{
+			actor->InUse = false;
+		}
+		selected_item->InUse = true;
 
-	//	OnUseInventoryItem.Broadcast(selected_item);
-	//}
+		OnUseInventoryItem.Broadcast(selected_item);
+	}
 }
 

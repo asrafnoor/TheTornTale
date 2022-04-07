@@ -35,6 +35,8 @@ public:
 		FString Name;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
 		UTexture2D* Image;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
+		bool InUse;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PickUp")
 		USceneComponent* SceneComponent;
