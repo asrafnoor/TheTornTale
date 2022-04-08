@@ -13,5 +13,12 @@ UCLASS()
 class THETORNTALE_API APickUpSilverCoin : public APickUpItem
 {
 	GENERATED_BODY()
+
+protected:
 	
+
+public:
+		//virtual void InteractWithMe() override;
+
+	bool IsCollected() const;
 };

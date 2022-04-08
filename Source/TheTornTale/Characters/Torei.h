@@ -57,6 +57,9 @@ public:
 		FInventoryDelegate OnRemoveInventoryItem;
 
 	UPROPERTY(BlueprintAssignable, Category = "PickUp")
+		FInventoryDelegate OnCollectInventoryItem;
+
+	UPROPERTY(BlueprintAssignable, Category = "PickUp")
 		FInventoryDelegateSingle OnUseInventoryItem;
 
 private:

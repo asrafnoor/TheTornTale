@@ -9,6 +9,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/InputSettings.h"
 #include "Components/InputComponent.h"
+#include "TheTornTale/GameModes/ItemsCollectedGameMode.h"
+#include "TheTornTale/InteractiveObjects/PickUpSilverCoin.h"
 
 
 // Sets default values
@@ -32,13 +34,13 @@ void ATorei::BeginPlay()
 {
 	Super::BeginPlay();
 
-	APlayerController* playerController = Cast<APlayerController>(GetController());
-	if (playerController)
-	{
-		playerController->bShowMouseCursor = true;
-		playerController->bEnableClickEvents = true;
-		playerController->bEnableMouseOverEvents = true;
-	}
+	//APlayerController* playerController = Cast<APlayerController>(GetController());
+	//if (playerController)
+	//{
+	//	playerController->bShowMouseCursor = true;
+	//	playerController->bEnableClickEvents = true;
+	//	playerController->bEnableMouseOverEvents = true;
+	//}
 
 	//Adjust Overlap object inside the Interaction Box Component
 	/*InteractionBox->OnComponentBeginOverlap.AddDynamic(this, &ATorei::OnBoxBeginOverlap);
@@ -205,13 +207,17 @@ void ATorei::Interacting()
 	{
 		Interface->InteractWithMe();
 	}
+	
 }
 
 void ATorei::AddToInventory(APickUpItem* actor)
 {
+
 	actionbar.Add(actor);
 
 	OnAddInventoryItem.Broadcast(actor, actionbar);
+
+	OnCollectInventoryItem.Broadcast(actor, actionbar);
 }
 
 void ATorei::RemoveInventoryItem(APickUpItem* actor)
