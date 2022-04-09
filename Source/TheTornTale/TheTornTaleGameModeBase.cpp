@@ -3,3 +3,6 @@
 
 #include "TheTornTaleGameModeBase.h"
 
+void ATheTornTaleGameModeBase::CompletedTask(AActor* CompletedTask)
+{
+}

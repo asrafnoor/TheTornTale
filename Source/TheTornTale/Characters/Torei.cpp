@@ -6,6 +6,12 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/BoxComponent.h"
 #include "TheTornTale/InteractionInterface.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/InputSettings.h"
+#include "Components/InputComponent.h"
+#include "TheTornTale/GameModes/ItemsCollectedGameMode.h"
+#include "TheTornTale/InteractiveObjects/PickUpSilverCoin.h"
+
 
 // Sets default values
 ATorei::ATorei()
@@ -28,9 +34,18 @@ void ATorei::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//APlayerController* playerController = Cast<APlayerController>(GetController());
+	//if (playerController)
+	//{
+	//	playerController->bShowMouseCursor = true;
+	//	playerController->bEnableClickEvents = true;
+	//	playerController->bEnableMouseOverEvents = true;
+	//}
+
 	//Adjust Overlap object inside the Interaction Box Component
 	/*InteractionBox->OnComponentBeginOverlap.AddDynamic(this, &ATorei::OnBoxBeginOverlap);
 	InteractionBox->OnComponentEndOverlap.AddDynamic(this, &ATorei::OnBoxEndOverlap);*/
+
 }
 
 // Called every frame
@@ -38,6 +53,10 @@ void ATorei::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (Jumping)
+	{
+		Jump();
+	}
 
 	TArray<AActor*> OverlappingActors;
 
@@ -75,10 +94,6 @@ void ATorei::Tick(float DeltaTime)
 		Interface->ShowInteractionWidget();
 	}
 
-	if (Jumping)
-	{
-		Jump();
-	}
 
 }
 
@@ -100,6 +115,7 @@ void ATorei::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Pressed, this, &ATorei::Sprint);
 	PlayerInputComponent->BindAction(TEXT("Sprint"), EInputEvent::IE_Released, this, &ATorei::Sprint);
 	PlayerInputComponent->BindAction(TEXT("Interact"), EInputEvent::IE_Pressed, this, &ATorei::Interacting);
+	PlayerInputComponent->BindAction(TEXT("UseItem"), EInputEvent::IE_Pressed, this, &ATorei::UseItem);
 }
 
 void ATorei::Landed(const FHitResult& Hit)
@@ -190,6 +206,78 @@ void ATorei::Interacting()
 	if (Interface)
 	{
 		Interface->InteractWithMe();
+	}
+	
+}
+
+void ATorei::AddToInventory(APickUpItem* actor)
+{
+
+	actionbar.Add(actor);
+
+	OnAddInventoryItem.Broadcast(actor, actionbar);
+
+	OnCollectInventoryItem.Broadcast(actor, actionbar);
+}
+
+void ATorei::RemoveInventoryItem(APickUpItem* actor)
+{
+	if (actor != nullptr)
+	{
+		if (actionbar.Remove(actor) > 0)
+		{
+			OnRemoveInventoryItem.Broadcast(actor, actionbar);
+		}
+	}
+}
+
+//void ATorei::UpdateInventory()
+//{
+//	/*FString sInventory = "";
+//
+//	for (APickUpItem* actor : inventory)
+//	{
+//		sInventory.Append(actor->Name);
+//		sInventory.Append(" | ");
+//	}
+//
+//	GEngine->AddOnScreenDebugMessage(1, 3, FColor::White, *sInventory);*/
+//
+//	//Call UpdateEvent
+//	OnUpdateInventory.Broadcast(inventory);
+//}
+
+//void ATorei::DropToActionBar(APickUpItem* pickup, int32 maxItems)
+//{
+//	//Check if Action Bar is full
+//	if (actionbar.Num() == maxItems)
+//	{
+//		return;
+//	}
+//
+//	// Remove item from inventory and add to actionbar
+//	inventory.Remove(pickup);
+//	actionbar.Add(pickup);
+//
+//	OnUpdateActionBar.Broadcast(actionbar);
+//}
+
+void ATorei::UseItem(FKey key)
+{
+	FText name = key.GetDisplayName(false);
+	int32 number = FCString::Atoi(*name.ToString());
+
+	if (number >= 1 && number <= actionbar.Num())
+	{
+		auto selected_item = actionbar[number - 1];
+
+		for (auto actor : actionbar)
+		{
+			actor->InUse = false;
+		}
+		selected_item->InUse = true;
+
+		OnUseInventoryItem.Broadcast(selected_item);
 	}
 }
 

@@ -4,7 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "TheTornTale/InteractiveObjects/PickUpItem.h"
 #include "Torei.generated.h"
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInventoryDelegate, APickUpItem*, Item, const TArray<APickUpItem*>&, InventoryItems);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInventoryDelegateSingle, APickUpItem*, Item);
 
 class UBoxComponent;
 class IInteractionInterface;
@@ -13,15 +18,17 @@ class THETORNTALE_API ATorei : public ACharacter
 {
 	GENERATED_BODY()
 
-public:
-	// Sets default values for this character's properties
-	ATorei();
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	void UseItem(FKey key);
+
 public:	
+	// Sets default values for this character's properties
+	ATorei();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -29,6 +36,31 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	virtual void Landed(const FHitResult& Hit) override;
+
+	//Inventory functions
+
+	void AddToInventory(APickUpItem* actor);
+
+	//UFUNCTION(BlueprintCallable)
+	//	void UpdateInventory();
+
+	//UFUNCTION(BlueprintCallable)
+	//	void DropToActionBar(APickUpItem* pickup, int32 maxItems);
+
+	UFUNCTION(BlueprintCallable)
+		void RemoveInventoryItem(APickUpItem* actor);
+
+	UPROPERTY(BlueprintAssignable, Category = "PickUp")
+		FInventoryDelegate OnAddInventoryItem;
+
+	UPROPERTY(BlueprintAssignable, Category = "PickUp")
+		FInventoryDelegate OnRemoveInventoryItem;
+
+	UPROPERTY(BlueprintAssignable, Category = "PickUp")
+		FInventoryDelegate OnCollectInventoryItem;
+
+	UPROPERTY(BlueprintAssignable, Category = "PickUp")
+		FInventoryDelegateSingle OnUseInventoryItem;
 
 private:
 	UPROPERTY(EditAnyWhere)
@@ -47,6 +79,12 @@ private:
 		int launchValueZ = 500;
 	UPROPERTY(EditAnywhere)
 		UBoxComponent* InteractionBox;
+
+	//Lists
+	//TArray<APickUpItem*> inventory;
+
+	TArray<APickUpItem*> actionbar;
+
 
 	/*UFUNCTION()
 		void OnBoxBeginOverlap(UPrimitiveComponent* OveralappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

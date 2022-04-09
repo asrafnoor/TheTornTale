@@ -13,5 +13,8 @@ UCLASS()
 class THETORNTALE_API ATheTornTaleGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+	virtual void CompletedTask(AActor* CompletedTask);
 	
 };
